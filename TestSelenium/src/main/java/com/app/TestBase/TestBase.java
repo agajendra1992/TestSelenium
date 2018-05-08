@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.app.Utils.Utils;
@@ -22,18 +24,17 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class TestBase extends Utils {
-
+	
 	public void reportcreate() {
 		Calendar calender = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
 		String SampleReport = "TestReport" + "_" + format.format(calender.getTime()) + ".html";
-		// ApplicationFilePath.report = new
-		// ExtentReports(".//Reports//TestReport.html");
+		//ApplicationFilePath.report = new ExtentReports(".//Reports//TestReport.html");
 		ApplicationFilePath.report = new ExtentReports(".//Reports//" + SampleReport);
-
+		
 	}
 
-	@Test
+	@BeforeTest
 	public void appInit() {
 
 		reportcreate();
@@ -47,12 +48,27 @@ public class TestBase extends Utils {
 		waitforpageload(5);
 		driver.get(ApplicationFilePath.p.getProperty("app.url"));
 		ApplicationFilePath.logger.log(LogStatus.INFO, "Navigate to URL");
-		
+
 	}
 
 	public void loadProperties() {
 		ApplicationFilePath.f = new File(
 				System.getProperty("user.dir") + "//src//main//java//com//app//config//config.properties");
+		try {
+			ApplicationFilePath.fis = new FileInputStream(ApplicationFilePath.f);
+		
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			ApplicationFilePath.p.load(ApplicationFilePath.fis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		ApplicationFilePath.f = new File(System.getProperty("user.dir")+"//src//main//java//com//app//applocator//loginlocator.properties");
 		try {
 			ApplicationFilePath.fis = new FileInputStream(ApplicationFilePath.f);
 		} catch (FileNotFoundException e) {
@@ -74,7 +90,7 @@ public class TestBase extends Utils {
 			return driver.findElement(By.id(LocatorValue));
 		else if (LocatorKey.toLowerCase().equalsIgnoreCase("name"))
 			return driver.findElement(By.name(LocatorValue));
-		
+
 		else if (LocatorKey.toLowerCase().equalsIgnoreCase("className"))
 			return driver.findElement(By.className(LocatorValue));
 		else if (LocatorKey.toLowerCase().equalsIgnoreCase("linkText"))
@@ -106,7 +122,8 @@ public class TestBase extends Utils {
 	}
 
 	@AfterTest
-	public void closeapp() {
+	public void closeapp() throws InterruptedException {
+		pausescript(20000);
 		driver.quit();
 		ApplicationFilePath.report.endTest(ApplicationFilePath.logger);
 

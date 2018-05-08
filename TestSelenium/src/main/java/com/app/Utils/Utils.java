@@ -47,6 +47,11 @@ public class Utils {
 		driver.manage().window().maximize();
 	}
 
+	public void pausescript(long msecond) throws InterruptedException {
+		
+		Thread.sleep(msecond);
+	}
+
 	public int waitforpageload(int time) {
 		driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
 		return time;

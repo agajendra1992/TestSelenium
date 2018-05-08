@@ -14,14 +14,14 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.app.config.ApplicationFilePath;
 
-public class ExcelRead {
-
+public class ExcelRead extends ApplicationFilePath {
+	
 	public static org.apache.poi.ss.usermodel.Cell c;
 	public static org.apache.poi.ss.usermodel.Sheet sh;
 	public static Workbook wb;
 
-	public static Object[][] getData(String datafile, String sheet) {
-		ApplicationFilePath.f = new File(datafile);
+	public static Object[][] getData(String path, String sheet) {
+		ApplicationFilePath.f = new File(path);
 		try {
 			ApplicationFilePath.fis = new FileInputStream(ApplicationFilePath.f);
 		} catch (FileNotFoundException e) {

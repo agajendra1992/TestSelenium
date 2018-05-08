@@ -10,8 +10,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
 public class ApplicationFilePath {
-
-	public static String filepath = "Amazon.xlsx";
+	public static String filepath = "..//TestSelenium//src//main//java//com//app//data//ActiTimeData.xlsx";
 	public static String Sheet1 = "Login";
 	public static  String chromewebDriverValue = System.getProperty("user.dir") +"/target/tmp_webdrivers/chromedriver-windows-32bit.exe";
 	public static  String iewebDriverValue = System.getProperty("user.dir") +"/target/tmp_webdrivers/internetexplorerdriver-windows-32bit.exe";
